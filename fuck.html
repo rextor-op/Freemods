@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Particle UI</title>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        /* General reset */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            background: transparent;
+        }
+
+        /* Fullscreen particle background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.postimg.cc/YCv3LYyJ/IMG-20250109-165421-383.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Centered container for UI */
+        .center-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7); /* Transparent dark background */
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.8);
+            color: #ffffff;
+        }
+
+        /* TextView styling */
+        .textview {
+            font-size: 36px;
+            font-weight: 700;
+            color: #00d4ff; /* Neon blue */
+            text-shadow: 0px 0px 20px #00d4ff, 0px 0px 30px #00ffff;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Random result styling */
+        #randomResult {
+            font-size: 28px;
+            color: #ffae00; /* Gold glow */
+            text-shadow: 0px 0px 15px #ffae00, 0px 0px 30px #ffc700;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Footer for branding */
+        footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Fade-in animation */
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
+    <!-- UI Content -->
+    <div class="center-content">
+        <div id="textview1" class="textview">Loading...</div>
+        <div id="textview2" class="textview">00:00</div>
+        <div id="randomResult">Result will appear here</div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        Designed with ANXT src | Powered by <strong>VPRO</strong>
+    </footer>
+
+    <script>
+        // Initialize Particles.js
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 150,
+                    "density": {
+                        "enable": true,
+                        "value_area": 1200
+                    }
+                },
+                "color": {
+                    "value": "#00bfff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 2,
+                        "color": "#0077ff"
+                    }
+                },
+                "opacity": {
+                    "value": 0.7,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.3
+                    }
+                },
+                "size": {
+                    "value": 4,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 2,
+                        "size_min": 0.1
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 180,
+                    "color": "#00d4ff",
+                    "opacity": 0.5,
+                    "width": 1.5
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 3,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    }
+                },
+                "modes": {
+                    "repulse": {
+                        "distance": 100
+                    },
+                    "bubble": {
+                        "distance": 200,
+                        "size": 8,
+                        "duration": 2,
+                        "opacity": 0.8
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+
+        // Variables for TextViews
+        const textview1 = document.getElementById('textview1');
+        const textview2 = document.getElementById('textview2');
+        const randomResult = document.getElementById('randomResult');
+
+        const results = ["SMALL 1.3", "SMALL 2.4", "SMALL 0.1", "BIG 7.9", "BIG 6.8", "BIG 5.7"];
+
+        // Variable to track the previous value of textview1
+        let previousValue = "";
+
+        setInterval(() => {
+            const now = new Date();
+            const seconds = now.getSeconds();
+            const remainingSeconds = 60 - seconds;
+
+            const startHour = 5;
+            const startMinute = 29;
+
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+
+            let elapsedMinutes = (currentHour * 60 + currentMinute) - (startHour * 60 + startMinute);
+
+            if (elapsedMinutes < 0) elapsedMinutes = 0;
+
+            const formattedDate = now.toISOString().slice(0, 10).replace(/-/g, '');
+            const periodNumber = "100001".concat(String(elapsedMinutes).padStart(4, '0'));
+
+            const newText = formattedDate.concat(periodNumber);
+
+            // Update textview1 and check for changes
+            if (textview1.textContent !== newText) {
+                textview1.textContent = newText;
+
+                // Display a random result when textview1 changes
+                randomResult.textContent = results[Math.floor(Math.random() * results.length)];
+            }
+
+            // Update textview2
+            textview2.textContent = `00:${remainingSeconds.toString().padStart(2, '0')}`;
+        }, 1000);
+    </script>
+</body>
+</html>
